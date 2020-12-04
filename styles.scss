@@ -1,0 +1,320 @@
+////////////////////////////////////////////////
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap');
+
+// scale factor for each tile
+$zoom: 1.5;
+
+$tilemap_background: url("./images/tilemap-background.png");
+$tilemap_background_width: $zoom * 840px;
+
+$tilemap_creatures: url("./images/tilemap-creatures.png");
+$tilemap_creatures_width: $zoom * 768px;
+
+$tilemap_items: url("./images/tilemap-items.png");
+$tilemap_items_width: $zoom * 528px;
+
+$tilesize: 24;
+
+// calculates background position from tile co-ordinates
+@function tile($pos) {
+    @return ($pos - 1) * $zoom * $tilesize * -1px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+body {
+
+    min-width: $zoom * $tilesize * 14px + 8px;
+    background-color: #000;
+
+    .gameContainer {
+        width: $zoom * $tilesize * 14px + 8px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+
+        .scoreBoard {
+            background-color: black;
+            text-align: center;
+            font-size: 2rem;
+            color: white;
+            padding: 0.5rem;
+        }
+
+        .overlay_gameover {
+            position: absolute;
+            left: 2%;
+            text-align: center;
+            z-index: 8;
+            width:100%;
+            display: none;
+            background-color: rgb(0,0,0,0.5);
+            color: white;
+            font-size: 6rem;
+        }
+
+        .debug {
+            color: white;
+            font-size: 2rem;
+            display: block;
+        }
+
+        #boardContainer {
+            display: grid;
+            grid-template-columns: repeat(15, 1fr);
+            grid-template-rows: repeat(15, 1fr);
+
+            .tileContainer {
+                position: relative;
+                height: $zoom * $tilesize * 1px;
+                width: $zoom * $tilesize * 1px;
+
+                .tile_background {
+                    position: relative;
+                    z-index: 1;
+                    height: 100%;
+                    background-image: $tilemap_background;
+                    background-size: $tilemap_background_width;
+                    background-repeat: no-repeat;
+
+                    &.gravestone {
+                        z-index: 3;
+                        transform: scale(0.75, 0.75);
+
+                        &.frame_0 {
+                            background-position: tile(1) tile(24);
+                        }
+
+                        &.frame_1 {
+                            background-position: tile(2) tile(24);
+                        }
+
+                        &.frame_2 {
+                            background-position: tile(3) tile(24);
+                        }
+
+                        &.frame_3 {
+                            background-position: tile(10) tile(24);
+                        }
+
+                    }
+
+                    //  wall corners top-left, clockwise
+                    &.wall_0 {
+                        background-position: tile(14) tile(1);
+                    }
+
+                    &.wall_1 {
+                        background-position: tile(15) tile(1);
+                    }
+
+                    &.wall_2 {
+                        background-position: tile(16) tile(1);
+                    }
+
+                    &.wall_3 {
+                        background-position: tile(17) tile(1);
+                    }
+
+                    // wall horizontal mid
+                    &.wall_4 {
+                        background-position: tile(9) tile(1);
+                    }
+
+                    // wall vertical bottom
+                    &.wall_6 {
+                        background-position: tile(13) tile(1);
+                    }
+
+                    // wall horizontal left
+                    &.wall_7 {
+                        background-position: tile(8) tile(1);
+                    }
+
+                    // wall horizontal right
+                    &.wall_8 {
+                        background-position: tile(10) tile(1);
+                    }
+
+                    // wall vertical top
+                    &.wall_9 {
+                        background-position: tile(11) tile(1);
+                    }
+
+                    // wall vertical mid
+                    &.wall_I {
+                        background-position: tile(12) tile(1);
+                    }
+
+                    // wall T connector top
+                    &.wall_T {
+                        background-position: tile(19) tile(1);
+                    }
+
+                    // wall T connector bottom
+                    &.wall_V {
+                        background-position: tile(22) tile(1);
+                    }
+
+                    // creature tank 
+                    &.wall_C {
+                        &.frame_0 {
+                            background-position: tile(30) tile(2);
+                        }
+
+                        &.frame_1 {
+                            background-position: tile(31) tile(2);
+                        }
+                    }
+
+                    // floor tiles
+                    &.wall_O {
+                        background-position: tile(2) tile(15);
+                    }
+
+                    &.wall_D {
+                        background-position: tile(3) tile(15);
+                    }
+
+                    &.wall_S {
+                        background-position: tile(1) tile(14);
+                    }
+
+                }
+
+                .tile_creature {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    z-index: 3;
+                    height: 100%;
+                    width: 100%;
+                    background-image: $tilemap_creatures;
+                    background-size: $tilemap_creatures_width;
+                    background-repeat: no-repeat;
+                    //visibility: visible;
+
+                    &.player {
+                        z-index: 9;
+
+                        &.frame_0 {
+                            background-position: tile(1) tile(9);
+                        }
+
+                        &.frame_1 {
+                            background-position: tile(2) tile(9);
+                        }
+                    }
+
+                    &.super-player {
+                        z-index: 9;
+
+                        &.frame_0 {
+                            background-position: tile(27) tile(9);
+                        }
+
+                        &.frame_1 {
+                            background-position: tile(32) tile(9);
+                        }
+                    }
+
+
+
+                    /////////////////////////////////////////////////
+                    /////////////////// enemies ///////////////////// 
+
+                    &.enemy_0 {
+                        &.frame_0 {
+                            background-position: tile(25) tile(18);
+                        }
+
+                        &.frame_1 {
+                            background-position: tile(26) tile(18);
+                        }
+                    }
+
+                    &.enemy_1 {
+                        &.frame_0 {
+                            background-position: tile(31) tile(18);
+                        }
+
+                        &.frame_1 {
+                            background-position: tile(32) tile(18);
+                        }
+                    }
+
+                    &.enemy_2 {
+                        &.frame_0 {
+                            background-position: tile(25) tile(18);
+                        }
+
+                        &.frame_1 {
+                            background-position: tile(26) tile(18);
+                        }
+                    }
+
+                    &.enemy_3 {
+                        &.frame_0 {
+                            background-position: tile(31) tile(18);
+                        }
+
+                        &.frame_1 {
+                            background-position: tile(32) tile(18);
+                        }
+                    }
+
+                    &.enemy_4 {
+                        &.frame_0 {
+                            background-position: tile(25) tile(18);
+                        }
+
+                        &.frame_1 {
+                            background-position: tile(26) tile(18);
+                        }
+                    }
+
+                    &.enemy_5 {
+                        &.frame_0 {
+                            background-position: tile(31) tile(18);
+                        }
+
+                        &.frame_1 {
+                            background-position: tile(32) tile(18);
+                        }
+                    }
+                }
+
+                .tile_item {
+                    z-index: 2;
+                    height: 50%;
+                    width: 50%;
+                    position: absolute;
+                    top: 25%;
+                    left: 25%;
+                    background-image: $tilemap_items;
+                    background-size: $tilemap_items_width /2;
+                    background-repeat: no-repeat;
+
+                    &.gold {
+                        background-position: tile(2) tile(1);
+
+                        transform: scale(0.65, 0.65);
+                    }
+
+                    &.skull {
+                        background-position: tile(6) tile(2);
+                        transform: scale(1.25, 1.25);
+                    }
+
+
+                }
+            }
+        }
+    }
+}

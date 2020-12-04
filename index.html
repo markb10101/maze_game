@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Maze Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="shortcut icon" href="#" />
+</head>
+
+<body>
+
+    <div class="gameContainer">
+
+
+        <div class="scoreBoard">
+            <span class="score">Score:0</span>
+            <span class="lives">Lives:5</span>
+        </div>
+
+        <div class="overlay_gameover">GAME OVER</div>
+
+        <div id="boardContainer">
+
+        </div>
+
+
+    </div>
+    <!-- <div class="tile_creature enemy buggo frame_0"></div>
+    <div class="tile_creature enemy juggo frame_0"></div> -->
+    <div class="tile_creature player frame_0"></div>
+    <div class="tile_creature super-player frame_0"></div>
+    <div class="tile_item gold"></div>
+    <div class="tile_item skull"></div>
+    <div class="tile_background gravestone frame_0"></div>
+
+    
+
+    <audio id="start" src="./sfx/level_start.wav"></audio>
+    <audio id="complete" src="./sfx/level_complete.wav"></audio>
+    <audio id="step1" src="./sfx/player_step1.wav"></audio>
+    <audio id="step2" src="./sfx/player_step2.wav"></audio>
+    <audio id="gold" src="./sfx/pickup_gold.wav"></audio>
+    <audio id="super" src="./sfx/pickup_skull.wav"></audio>
+    <audio id="death" src="./sfx/player_death.wav"></audio>
+    <audio id="enemy_birth" src="./sfx/enemy_birth.wav"></audio>
+    <audio id="enemy_death" src="./sfx/enemy_death.wav"></audio>
+    <audio id="gameover" src="./sfx/gameover.wav"></audio>
+
+
+    <script src="app.js"></script>
+</body>
+
+</html>

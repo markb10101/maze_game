@@ -1,0 +1,211 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "JetBrains Mono", monospace;
+}
+
+body {
+  min-width: 512px;
+  background-color: #000;
+}
+body .gameContainer {
+  width: 512px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+body .gameContainer .scoreBoard {
+  background-color: black;
+  text-align: center;
+  font-size: 2rem;
+  color: white;
+  padding: 0.5rem;
+}
+body .gameContainer .overlay_gameover {
+  position: absolute;
+  left: 2%;
+  text-align: center;
+  z-index: 8;
+  width: 100%;
+  display: none;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 6rem;
+}
+body .gameContainer .debug {
+  color: white;
+  font-size: 2rem;
+  display: block;
+}
+body .gameContainer #boardContainer {
+  display: grid;
+  grid-template-columns: repeat(15, 1fr);
+  grid-template-rows: repeat(15, 1fr);
+}
+body .gameContainer #boardContainer .tileContainer {
+  position: relative;
+  height: 36px;
+  width: 36px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_background {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  background-image: url("./images/tilemap-background.png");
+  background-size: 1260px;
+  background-repeat: no-repeat;
+}
+body .gameContainer #boardContainer .tileContainer .tile_background.gravestone {
+  z-index: 3;
+  transform: scale(0.75, 0.75);
+}
+body .gameContainer #boardContainer .tileContainer .tile_background.gravestone.frame_0 {
+  background-position: 0px -828px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_background.gravestone.frame_1 {
+  background-position: -36px -828px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_background.gravestone.frame_2 {
+  background-position: -72px -828px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_background.gravestone.frame_3 {
+  background-position: -324px -828px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_background.wall_0 {
+  background-position: -468px 0px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_background.wall_1 {
+  background-position: -504px 0px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_background.wall_2 {
+  background-position: -540px 0px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_background.wall_3 {
+  background-position: -576px 0px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_background.wall_4 {
+  background-position: -288px 0px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_background.wall_6 {
+  background-position: -432px 0px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_background.wall_7 {
+  background-position: -252px 0px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_background.wall_8 {
+  background-position: -324px 0px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_background.wall_9 {
+  background-position: -360px 0px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_background.wall_I {
+  background-position: -396px 0px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_background.wall_T {
+  background-position: -648px 0px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_background.wall_V {
+  background-position: -756px 0px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_background.wall_C.frame_0 {
+  background-position: -1044px -36px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_background.wall_C.frame_1 {
+  background-position: -1080px -36px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_background.wall_O {
+  background-position: -36px -504px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_background.wall_D {
+  background-position: -72px -504px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_background.wall_S {
+  background-position: 0px -468px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_creature {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  height: 100%;
+  width: 100%;
+  background-image: url("./images/tilemap-creatures.png");
+  background-size: 1152px;
+  background-repeat: no-repeat;
+}
+body .gameContainer #boardContainer .tileContainer .tile_creature.player {
+  z-index: 9;
+}
+body .gameContainer #boardContainer .tileContainer .tile_creature.player.frame_0 {
+  background-position: 0px -288px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_creature.player.frame_1 {
+  background-position: -36px -288px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_creature.super-player {
+  z-index: 9;
+}
+body .gameContainer #boardContainer .tileContainer .tile_creature.super-player.frame_0 {
+  background-position: -936px -288px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_creature.super-player.frame_1 {
+  background-position: -1116px -288px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_creature.enemy_0.frame_0 {
+  background-position: -864px -612px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_creature.enemy_0.frame_1 {
+  background-position: -900px -612px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_creature.enemy_1.frame_0 {
+  background-position: -1080px -612px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_creature.enemy_1.frame_1 {
+  background-position: -1116px -612px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_creature.enemy_2.frame_0 {
+  background-position: -864px -612px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_creature.enemy_2.frame_1 {
+  background-position: -900px -612px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_creature.enemy_3.frame_0 {
+  background-position: -1080px -612px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_creature.enemy_3.frame_1 {
+  background-position: -1116px -612px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_creature.enemy_4.frame_0 {
+  background-position: -864px -612px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_creature.enemy_4.frame_1 {
+  background-position: -900px -612px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_creature.enemy_5.frame_0 {
+  background-position: -1080px -612px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_creature.enemy_5.frame_1 {
+  background-position: -1116px -612px;
+}
+body .gameContainer #boardContainer .tileContainer .tile_item {
+  z-index: 2;
+  height: 50%;
+  width: 50%;
+  position: absolute;
+  top: 25%;
+  left: 25%;
+  background-image: url("./images/tilemap-items.png");
+  background-size: 396px;
+  background-repeat: no-repeat;
+}
+body .gameContainer #boardContainer .tileContainer .tile_item.gold {
+  background-position: -36px 0px;
+  transform: scale(0.65, 0.65);
+}
+body .gameContainer #boardContainer .tileContainer .tile_item.skull {
+  background-position: -180px -36px;
+  transform: scale(1.25, 1.25);
+}
