@@ -20,9 +20,12 @@ body .gameContainer {
 body .gameContainer .scoreBoard {
   background-color: black;
   text-align: center;
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: white;
   padding: 0.5rem;
+}
+body .gameContainer .scoreBoard .score {
+  font-size: 1.75rem;
 }
 body .gameContainer .overlay_gameover {
   position: absolute;

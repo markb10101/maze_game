@@ -1,3 +1,6 @@
+// maze thing
+
+
 const boardMap = [
     '0', '4', '4', '4', '4', '4', '4', '4', '4', '4', '4', '4', '4', '4', '1',
     'I', 'S', 'O', 'O', 'O', 'D', 'O', 'O', 'O', 'D', 'O', 'O', 'O', 'S', 'I',
@@ -30,7 +33,7 @@ const game = {
     maxEnemies: 5,
     activeEnemies: 0,
     pickups: 0,
-    completions: 0
+    level: 1,
 }
 
 const controls = {
@@ -65,7 +68,7 @@ const createEnemies = () => {
         newEnemy.y = 10;
         newEnemy.id = i;
         newEnemy.qDir = -1;
-        newEnemy.direction = 2;
+        newEnemy.direction = 0; //debug
         newEnemy.speed = 20;
         newEnemy.delay = 0;
         newEnemy.isActive = true;
@@ -138,8 +141,6 @@ const drawBoard = () => {
     game.pickups--;
     removeItem(8, 9);
 
-    // debug
-    //game.pickups = 5;
 
 }
 
@@ -164,11 +165,12 @@ const checkFloor = (x, y) => {
 
 const checkTileOccupied = (x, y, item = 'enemy') => {
 
-    const children = document.querySelector(`.xPos_${x}.yPos_${y}`).childNodes;
+    let tileToCheck = document.querySelector(`.xPos_${x}.yPos_${y}`);
+
+    const children = tileToCheck.childNodes;
 
     for (i = 0; i < children.length; i++) {
         if (children[i].classList.contains(item)) {
-            //console.log(children[i].classList);
             return children[i].classList;
         }
     }
@@ -189,12 +191,11 @@ const removeItem = (x, y) => {
 
 const moveEnemy = (i, x, y, dir) => {
 
-    if (player.x == x && player.y == y) {
-        console.log("onPlayer");
+    if (player.x == x && player.y == y && player.superTimer > 0) {
         enemies[i].x = 8;
         enemies[i].y = 9;
         game.score += Math.floor(1000 / enemies[i].speed) ;
-        if(enemies[i].speed > 4) enemies[i].speed -= 4;
+        if(enemies[i].speed > 4) enemies[i].speed -= 2;
         
         playSFX(game.sfx_enemy_death);
 
@@ -203,7 +204,9 @@ const moveEnemy = (i, x, y, dir) => {
 
         if (checkIsCheckpoint(x, y)) {
             enemyPathChange(i, dir);
-            dir = enemies[i].direction;
+           // dir = enemies[i].qDir;
+           dir = enemies[i].direction;
+            //enemies[i].direction = enemies[i].qDir
         }
         switch (dir) {
             case 1:
@@ -424,6 +427,7 @@ const animate = () => {
 
     game.livesDisplay.innerHTML = `Lives:${player.lives}`;
     game.scoreDisplay.innerHTML = `Score:${game.score}`;
+    game.levelDisplay.innerHTML = `Level:${game.level}`;
 }
 
 const fastAnimate = () => {
@@ -442,7 +446,7 @@ const checkDeath = () => {
             playerDeath();
             if (player.lives == 0) {
                 playSFX(game.sfx_gameover);
-                game.overlay_gameover.style.display = "block";
+                game.overlay_gameover.style.display = "block";                
             }
         } 
     }
@@ -475,9 +479,13 @@ const gameReset = () => {
 }
 
 const resetPlayer = (px,py) => {
-    game.player.style.display = "block";
-    if(checkTileOccupied(px,py,'enemy') || !checkFloor(px,py)){
-        resetPlayer(Math.floor(Math.random(14)),Math.floor(Math.random(14)));
+    
+    if(checkTileOccupied(px,py,"enemy")!=false || checkFloor(px,py)==false){
+        // if player start tile is occupied by enemy,
+        // choose a random start tile which is free
+        const altX = Math.floor(Math.random()*14);
+        const altY = Math.floor(Math.random()*14);
+        resetPlayer(altX,altY);
     }else{
         player.x = px;
         player.y = py;
@@ -487,12 +495,13 @@ const resetPlayer = (px,py) => {
     player.qDir = -1;
     player.speed = player.startSpeed;
     player.isPaused = false;
-
+    game.player.style.display = "block";
     drawPlayer();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    game.levelDisplay = document.querySelector('.level');
     game.scoreDisplay = document.querySelector('.score');
     game.livesDisplay = document.querySelector('.lives');
 
@@ -533,11 +542,11 @@ const gameLoop = () => {
         if(game.pickups==0){
             // level complete
             playSFX(game.sfx_complete);
-            game.completions ++;
-            game.score += 500 * game.completions;
-            // do something now??
+            game.score += 500 * game.level;
+            game.level ++;
             game.board.innerHTML = "";
             drawBoard();
+            drawPlayer();
 
 
         }
